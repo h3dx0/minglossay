@@ -1,0 +1,19 @@
+app_user:
+    resource: "@AppBundle/Resources/config/routing/user.yml"
+    prefix:   /user
+
+app_miniglossary:
+        resource: "@AppBundle/Resources/config/routing/miniglossary.yml"
+        prefix:   /glossary
+app_term:
+    resource: "@AppBundle/Resources/config/routing/term.yml"
+    prefix:   /term
+
+app_translate:
+    resource: "@AppBundle/Resources/config/routing/translate.yml"
+    prefix:   /translate
+
+app_idiom:
+    resource: "@AppBundle/Resources/config/routing/idiom.yml"
+    prefix:   /idiom
+

@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<section class="search">
+    <form action="" class="">
+        <input placeholder="Search by glossary or term" type="text">
+    </form>
+</section>
+<section class="container-cards d-flex">
+    {% for miniGlossary in miniGlossaries %}
+
+    <div class="card item-card">
+        <div class="header-card">  
+            <span class="badge badge-info">Glossary: {{ miniGlossary.topic }},</span>
+            <span class="badge badge-info">Desc:{{ miniGlossary.description }}</span> <span class="badge badge-info">Language: {{ miniGlossary.idiom }}</span>
+            <span class="badge badge-info"> Creator: {{ miniGlossary.user }}</span>
+        </div>
+        <div class="card-body body-card">
+          <label for="terms__list">Terms:</label>
+          <ul>
+            {% for term in miniGlossary.terms %}
+
+            <li class="d-flex terms_item mb-2">
+              <div class="term___text">{{term}}</div>
+              <div class="d-flex">
+                <div class="term__translate mr-2"> 
+                    {% for translate in term.translates  %}
+                    {% if loop.index < 4 %}
+                    <span>{{translate}}({{translate.idiom}}),</span>   
+                    {% endif %}   
+                    {% endfor %}
+                    {% if term.translates|length > 3 %}
+                    <a href="#">
+                       {{ term.translates|length - 3}} 
+                   more</a>
+
+
+                   {% endif %}
+
+               </div>
+               <div class="term__action">
+                <a href="" class="btn btn-info btn-xs">Translate</a>
+            </div>
+        </div>
+    </li>
+    <hr>
+    {% endfor %}
+
+</ul>
+</div>
+<div class="footer-card d-flex">
+  <div class="terms__items-count">
+    {{miniGlossary.terms|length}} terms
+</div>
+<div class="terms__actions">
+    {% if miniGlossary.terms|length < 5 %}
+    <a href="{{ path('term_new') }}" class="btn btn-success">ADD TERMN</a>
+    {% endif %}
+</div>
+</div> 
+
+</div>
+{% endfor %}
+
+</section>
+
+<a href="{{ path('miniglossary_new') }}">Create a new miniGlossary</a>
+
+{% endblock %}

@@ -1,0 +1,24 @@
+translate_index:
+    path:     /
+    defaults: { _controller: "AppBundle:Translate:index" }
+    methods:  GET
+
+translate_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Translate:show" }
+    methods:  GET
+
+translate_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:Translate:new" }
+    methods:  [GET, POST]
+
+translate_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Translate:edit" }
+    methods:  [GET, POST]
+
+translate_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Translate:delete" }
+    methods:  DELETE

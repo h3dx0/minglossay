@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Idioms list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Text</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for idiom in idioms %}
+            <tr>
+                <td><a href="{{ path('idiom_show', { 'id': idiom.id }) }}">{{ idiom.id }}</a></td>
+                <td>{{ idiom.text }}</td>
+                <td>{{ idiom.description }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('idiom_show', { 'id': idiom.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('idiom_edit', { 'id': idiom.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('idiom_new') }}">Create a new idiom</a>
+        </li>
+    </ul>
+{% endblock %}
