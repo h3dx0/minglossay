@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<section class="mt-4">
+	<h3>Translations for <mark>{{glossary}}</mark></h3>
+	{% for term in terms %}
+	<div class="term__item flex-column">
+		<div class="term__header d-flex justify-content-between">
+			<div class="term__text">{{term}}</div>
+			<div class="term__description">{{term.description}}</div>	
+		</div>
+		<hr>
+		<div class="term__translations d-flex m-2">
+			{% for trans in term.translates %}
+			<div class="term__translations-container d-flex mb-3">
+				<div class="trasn__info d-flex m-2">
+					<span class="badge badge-dark mr-2">{{trans.idiom}} </span>
+					<span>{{trans}} - </span>
+				</div>
+
+			</div>
+			{% endfor %}
+			<hr>
+
+		</div>
+	</div>
+</section>
+{% endfor %}
+
+{% endblock	%}

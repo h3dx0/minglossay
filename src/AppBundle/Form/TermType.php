@@ -13,7 +13,8 @@ class TermType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('text')->add('miniglossary');
+        $builder->add('text')->add('miniglossary')->add('description');
+        
     }/**
      * {@inheritdoc}
      */

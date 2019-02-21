@@ -5,13 +5,19 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Translate;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 /**
  * Translate controller.
  *
  */
 class TranslateController extends Controller
 {
+    const RESULT_OK = 0;
+    const RESULT_ERROR = -1;
+
     /**
      * Lists all translate entities.
      *
@@ -24,8 +30,36 @@ class TranslateController extends Controller
 
         return $this->render('translate/index.html.twig', array(
             'translates' => $translates,
+
         ));
     }
+
+    public function newAjaxAction(Request $request)
+    {
+        $result['rc'] = self::RESULT_ERROR;
+        $em = $this->getDoctrine()->getManager();
+
+        $textTranslate = $request->request->get('translation');
+        $termTranslate = $em->getRepository('AppBundle:Term')->find($request->request->get('term'));
+
+        $idiomTranslate = $em->getRepository('AppBundle:Idiom')->find($request->request->get('idiom'));
+        $user = $em->getRepository('AppBundle:User')->find(1);
+        //HGACER validacion para q no pueda meter mas de 5
+        $translate = new Translate();
+        $translate->setText($textTranslate);
+        $translate->setTerm($termTranslate);
+        $translate->setIdiom($idiomTranslate);
+        $translate->setUser($user);
+        $validator = $this->get('validator');
+        if ($validator->validate($translate)) {           
+            $em->persist($translate);
+            $em->flush();
+            $result['rc'] = self::RESULT_OK;               
+        }
+        $response = new Response(json_encode($result), Response::HTTP_OK);
+        return $this->setBaseHeaders($response);
+    }
+
 
     /**
      * Creates a new translate entity.
@@ -116,9 +150,28 @@ class TranslateController extends Controller
     private function createDeleteForm(Translate $translate)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('translate_delete', array('id' => $translate->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
+        ->setAction($this->generateUrl('translate_delete', array('id' => $translate->getId())))
+        ->setMethod('DELETE')
+        ->getForm()
         ;
     }
+    /**
+     * Set base HTTP headers.
+     *
+     * @param Response $response
+     *
+     * @return Response
+    */
+    private function setBaseHeaders(Response $response)
+    {
+        $response->headers->set('Content-Type', 'application/json');
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        $response->headers->set('Access-Control-Allow-Credentials', 'true');
+        $response->headers->set('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, PATCH, OPTIONS');
+        $response->headers->set('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept, Authorization');
+        $response->headers->set('Access-Control-Max-Age', 3600);
+
+        return $response;
+    }
+
 }

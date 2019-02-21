@@ -44,6 +44,11 @@ class Translate
      */
     private $user;
 
+    public function __toString()
+    {
+        return $this->text;
+    }
+
     /**
      * Get id
      *

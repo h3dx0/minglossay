@@ -8,6 +8,11 @@ term_show:
     defaults: { _controller: "AppBundle:Term:show" }
     methods:  GET
 
+term_by_glossary:
+    path:     /{idGlossary}/glossary
+    defaults: { _controller: "AppBundle:Term:termsByGlossary" }
+    methods:  GET
+            
 term_new:
     path:     /new
     defaults: { _controller: "AppBundle:Term:new" }

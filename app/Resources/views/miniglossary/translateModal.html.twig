@@ -1,0 +1,43 @@
+<!-- Modal -->
+<div class="modal fade" id="translateModal" tabindex="-1" role="dialog" aria-labelledby="translateModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="translateModal">Translate </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="{{path('translate_new_ajax')}}" id="formTranslate" method="post">
+          <div class="row">
+            <div class="col-12 col-sm-6">
+              <div class="form-group">
+                <label for="">Translation text</label>
+                <input type="text" placeholder="Translation" name="translation">
+              </div>  
+            </div>   
+            <div class="col-12 col-sm-6">
+              <div class="form-group">
+                <label for="">Translation language</label>
+                <select name="idiom" id="idiom__selection">
+                  {% for idiom in idioms %}
+                  <option value="{{idiom.id}}">{{idiom}} - {{idiom.description}}</option>
+                  {% endfor %}
+                </select>
+                <input type="hidden" value="" name="term" id="term__translate">
+              </div>  
+            </div> 
+
+          </div>
+        </form>
+        <div class="alert alert-success alert-translation d-none">Translation saved :)</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-save__translate">Save changes</button>
+
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

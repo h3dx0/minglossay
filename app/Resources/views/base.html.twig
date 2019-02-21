@@ -6,9 +6,9 @@
     {% block stylesheets %}{% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <style>
 
+    <style>
+    
     .container-cards {
       flex-wrap: wrap;
   }
@@ -19,8 +19,6 @@
       border: solid 1px grey;
       border-radius:2px;
       padding:5px;
-      flex-grow:1;
-      margin:5px;
   }
   .terms_item,.footer-card{
       justify-content: space-between
@@ -41,7 +39,14 @@
   .translation-item  {
       justify-content:space-between;
   }
-  </style>
+  .term__header {
+    background: #42d8a0;
+
+    color: white;
+
+    padding: 5px;
+}
+</style>
 </head>
 <body>
     <header>
@@ -76,6 +81,34 @@
 <main class="container-fluid">
     {% block body %}{% endblock %}
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script>
+$(function(){
+   $('[data-toggle="popover"]').popover()
+   $('#translateModal').on('show.bs.modal', function (e) {
+    let termSaved = sessionStorage.getItem('termToTranslate')
+    let textSaved = sessionStorage.getItem('textToTranslate')
+    $('.modal-title').html(`Translate ${textSaved}`)
+    $('#term__translate').val(termSaved)
+})
+   $('#translateModal').on('hidden.bs.modal', function (e) {
+    window.location.reload();
+})
+   $('.btn-save__translate').on('click', function() {
+    var $formTranslate = $("#formTranslate")
+    $.post($formTranslate.attr("action"), $formTranslate.serialize(), function (response) {
+      if(response.rc == 0){
+        $('.alert-translation').removeClass('d-none')
+        $('#formTranslate input,#formTranslate select').val('')
+    }else{
+        alert('An error occurred')
+    }
+})
+})
+})
+</script>
 {% block javascripts %}{% endblock %}
 </body>
 </html>

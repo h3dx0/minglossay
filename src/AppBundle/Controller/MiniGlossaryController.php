@@ -5,7 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\MiniGlossary;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-
+use AppBundle\Entity\Idiom;
 /**
  * Miniglossary controller.
  *
@@ -21,9 +21,11 @@ class MiniGlossaryController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $miniGlossaries = $em->getRepository('AppBundle:MiniGlossary')->findAll();
+        $idioms = $em->getRepository('AppBundle:Idiom')->findAll();
 
         return $this->render('miniglossary/index.html.twig', array(
             'miniGlossaries' => $miniGlossaries,
+            'idioms' => $idioms
         ));
     }
 
@@ -116,9 +118,9 @@ class MiniGlossaryController extends Controller
     private function createDeleteForm(MiniGlossary $miniGlossary)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('miniglossary_delete', array('id' => $miniGlossary->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
+        ->setAction($this->generateUrl('miniglossary_delete', array('id' => $miniGlossary->getId())))
+        ->setMethod('DELETE')
+        ->getForm()
         ;
     }
 }

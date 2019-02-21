@@ -27,6 +27,16 @@ class TermController extends Controller
         ));
     }
 
+    public function termsByGlossaryAction($idGlossary)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $glossary = $em->getRepository('AppBundle:MiniGlossary')->find($idGlossary);
+        $terms = $em->getRepository('AppBundle:Term')->findBy(array('miniglossary' => $idGlossary));
+        return $this->render('term/termsByGlossary.html.twig', array(
+            'terms' => $terms,
+            'glossary' => $glossary
+        )); 
+    }
     /**
      * Creates a new term entity.
      *
@@ -116,9 +126,9 @@ class TermController extends Controller
     private function createDeleteForm(Term $term)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('term_delete', array('id' => $term->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
+        ->setAction($this->generateUrl('term_delete', array('id' => $term->getId())))
+        ->setMethod('DELETE')
+        ->getForm()
         ;
     }
 }

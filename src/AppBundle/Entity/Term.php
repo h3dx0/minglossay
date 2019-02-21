@@ -28,6 +28,13 @@ class Term
      * @ORM\Column(name="text", type="string", length=255)
      */
     private $text;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=255)
+     */
+    private $description;
    /**
      * @ORM\ManyToOne(targetEntity="MiniGlossary", inversedBy="terms")
      * @ORM\JoinColumn(name="miniglossary_id", referencedColumnName="id")
@@ -140,5 +147,29 @@ class Term
     public function getTranslates()
     {
         return $this->translates;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Term
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
     }
 }

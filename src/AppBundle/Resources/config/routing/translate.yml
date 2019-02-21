@@ -13,6 +13,12 @@ translate_new:
     defaults: { _controller: "AppBundle:Translate:new" }
     methods:  [GET, POST]
 
+translate_new_ajax:
+    path:     /new_ajax
+    defaults: { _controller: "AppBundle:Translate:newAjax" }
+    methods:  POST
+    
+    
 translate_edit:
     path:     /{id}/edit
     defaults: { _controller: "AppBundle:Translate:edit" }
