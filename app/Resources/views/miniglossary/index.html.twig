@@ -2,8 +2,9 @@
 
 {% block body %}
 <section class="search mt-2 mb-2">
-    <form action="" class="">
-        <input placeholder="Search by glossary or term" type="text">
+    <form action="{{path('miniglossary_search')}}" class="d-flex" method="post">
+        <input placeholder="Search by glossary or term" type="text" name="query">
+        <button class="btn btn-sm btn-primary">Search</button>
     </form>
 </section>
 <a href="{{ path('miniglossary_new') }}" class="btn btn-success">Create a new glossary</a>
@@ -32,12 +33,12 @@
                     {% endfor %}
                     {% if term.translates|length > 3 %}
                     <a href="{{path('term_by_glossary' ,{ 'idGlossary': miniGlossary.id })}}">
-                       {{ term.translates|length - 3}} 
-                   more</a>
-                   {% endif %}
+                     {{ term.translates|length - 3}} 
+                 more</a>
+                 {% endif %}
 
-               </div>
-               <div class="term__action">
+             </div>
+             <div class="term__action">
                 <button type="button"
                 data-term="{{term.id}}"                
                 data-term-text="{{term}}"                

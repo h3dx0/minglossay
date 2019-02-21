@@ -30,6 +30,24 @@ class MiniGlossaryController extends Controller
     }
 
     /**
+     * Search all miniGlossary entities.
+     *
+     */
+    public function searchAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $query = $request->request->get('query');
+        $miniGlossaries = $em->getRepository('AppBundle:MiniGlossary')->findByTopic($query);
+        $terms = $em->getRepository('AppBundle:Term')->findByText($query);
+
+        return $this->render('miniglossary/resultSearch.html.twig', array(
+            'miniGlossaries' => $miniGlossaries,
+            'terms' => $terms,
+            'query' => $query
+        ));
+    }
+
+    /**
      * Creates a new miniGlossary entity.
      *
      */

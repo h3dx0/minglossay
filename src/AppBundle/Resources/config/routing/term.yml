@@ -27,3 +27,4 @@ term_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:Term:delete" }
     methods:  DELETE
+

@@ -22,3 +22,8 @@ miniglossary_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:MiniGlossary:delete" }
     methods:  DELETE
+
+miniglossary_search:
+    path:     /search
+    defaults: { _controller: "AppBundle:MiniGlossary:search" }
+    methods:  [GET, POST]
