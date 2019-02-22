@@ -19,12 +19,19 @@
 				</div>
 
 			</div>
-			{% endfor %}
-			<hr>
-
+			{% endfor %}			
+			
 		</div>
-	</div>
+		<button type="button"
+		data-term="{{term.id}}"                
+		data-term-text="{{term}}"                
+		class="btn btn-primary btn-modal__translate btn-sm" data-toggle="modal" data-target="#translateModal">
+		TRANSLATE
+	</button>
+	<hr>
+</div>
 </section>
 {% endfor %}
+{{ include('miniglossary/translateModal.html.twig') }}
 
 {% endblock	%}

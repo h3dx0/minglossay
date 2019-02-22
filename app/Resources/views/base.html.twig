@@ -1,43 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8" />
-    <title>{% block title %}MiniGlossary!{% endblock %}</title>
-    {% block stylesheets %}{% endblock %}
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <meta charset="UTF-8" />
+  <meta name="description" content="MiniGlossary for translations" />
+  <meta name="robots" content="index" />
+  <meta name="googlebot" content="index" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>{% block title %}MiniGlossary!{% endblock %}</title>
+  {% block stylesheets %}{% endblock %}
+  <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <style>
-    
-    .container-cards {
-      flex-wrap: wrap;
+  <style>
+
+  .container-cards {
+    flex-wrap: wrap;
   }
   ul {
-      padding:0;
+    padding:0;
   }
   .item-card {
-      border: solid 1px grey;
-      border-radius:2px;
-      padding:5px;
+    border: solid 1px grey;
+    border-radius:2px;
+    padding:5px;
   }
   .terms_item,.footer-card{
-      justify-content: space-between
+    justify-content: space-between
   }
   .terms-list__container {
-      border: solid;
-      padding: 5px;
-      flex-direction: column;
+    border: solid;
+    padding: 5px;
+    flex-direction: column;
   }
 
   .term-list__item-word{
-      justify-content: space-between;
+    justify-content: space-between;
   }
 
   .term-list__item {
-      flex-direction: column;
+    flex-direction: column;
   }
   .translation-item  {
-      justify-content:space-between;
+    justify-content:space-between;
   }
   .term__header {
     background: #42d8a0;
@@ -45,70 +49,88 @@
     color: white;
 
     padding: 5px;
-}
-</style>
+  }
+  </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-              <a class="navbar-brand" href="#">Navbar</a>
-              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                  <li class="nav-item active">
-                    <a class="nav-link" href="{{ path('miniglossary_index') }}">Glossaries <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">My Profile</a>
-                </li>  
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('term_index') }}">Term</a>
-                </li> 
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('idiom_index') }}">Idiom</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">My Glossaries</a>
-                </li>
+  <header class="mb-4">
+    <nav>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">MiniGlossary APP</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="{{ path('miniglossary_index') }}">Glossaries <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">My Profile</a>
+            </li>  
+            <li class="nav-item">
+              <a class="nav-link" href="{{ path('term_index') }}">Term</a>
+            </li> 
+            <li class="nav-item">
+              <a class="nav-link" href="{{ path('idiom_index') }}">Idiom</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">My Glossaries</a>
+            </li>
 
-            </ul>
+          </ul>
+          <form action="{{path('miniglossary_search')}}" class="form-inline my-2 my-lg-0" method="post">
+            <input class="form-control mr-sm-2" placeholder="Search by glossary or term" type="text" name="query">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+
+          </form>
         </div>
-    </nav>
-</header>
-<main class="container-fluid">
-    {% block body %}{% endblock %}
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script>
-$(function(){
-   $('[data-toggle="popover"]').popover()
-   $('#translateModal').on('show.bs.modal', function (e) {
-    let termSaved = sessionStorage.getItem('termToTranslate')
-    let textSaved = sessionStorage.getItem('textToTranslate')
-    $('.modal-title').html(`Translate ${textSaved}`)
-    $('#term__translate').val(termSaved)
-})
-   $('#translateModal').on('hidden.bs.modal', function (e) {
-    window.location.reload();
-})
-   $('.btn-save__translate').on('click', function() {
-    var $formTranslate = $("#formTranslate")
-    $.post($formTranslate.attr("action"), $formTranslate.serialize(), function (response) {
-      if(response.rc == 0){
-        $('.alert-translation').removeClass('d-none')
-        $('#formTranslate input,#formTranslate select').val('')
-    }else{
-        alert('An error occurred')
-    }
-})
-})
-})
-</script>
-{% block javascripts %}{% endblock %}
-</body>
-</html>
+      </nav>
+    </header>
+    <main class="container-fluid">
+      {% block body %}{% endblock %}
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script>
+    $(function(){
+     $('.btn-modal__translate').on('click', function(){
+      let textToTranslate =$(this).data('term-text')
+      let termToTranslate = $(this).data('term')
+
+      sessionStorage.setItem('termToTranslate',termToTranslate)
+      sessionStorage.setItem('textToTranslate',textToTranslate)
+    })
+
+     $('[data-toggle="popover"]').popover()
+     $('#translateModal').on('show.bs.modal', function (e) {
+      let termSaved = sessionStorage.getItem('termToTranslate')
+      let textSaved = sessionStorage.getItem('textToTranslate')
+      $('.modal-title').html(`Translate ${textSaved}`)
+      $('#term__translate').val(termSaved)
+    })
+     $('#translateModal').on('hidden.bs.modal', function (e) {
+      window.location.reload();
+    })
+     $('.btn-save__translate').on('click', function() {
+      var $formTranslate = $("#formTranslate")
+      $.post($formTranslate.attr("action"), $formTranslate.serialize(), function (response) {
+        if(response.rc == 0){
+          $('.alert-translation').removeClass('d-none')
+          $('#formTranslate input,#formTranslate select').val('')
+          setTimeout(function(){
+            $('#translateModal').modal('hide');
+            window.location.reload();
+          },1000)
+        }else{
+          alert('An error occurred')
+        }
+      })
+    })
+     $('input,select').addClass('form-control');
+   })
+    </script>
+    {% block javascripts %}{% endblock %}
+    </body>
+    </html>

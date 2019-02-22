@@ -37,8 +37,18 @@ class MiniGlossaryController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $query = $request->request->get('query');
-        $miniGlossaries = $em->getRepository('AppBundle:MiniGlossary')->findByTopic($query);
-        $terms = $em->getRepository('AppBundle:Term')->findByText($query);
+        $miniGlossaries = $em->getRepository('AppBundle:MiniGlossary')->createQueryBuilder('m')
+        ->where('m.topic LIKE :query')
+        ->orWhere('m.description LIKE :query')
+        ->setParameter('query', '%'.$query.'%')
+        ->getQuery()
+        ->getResult();
+        $terms = $em->getRepository('AppBundle:Term')->createQueryBuilder('t')
+        ->where('t.text LIKE :query')
+        ->orWhere('t.description LIKE :query')
+        ->setParameter('query', '%'.$query.'%')
+        ->getQuery()
+        ->getResult();
 
         return $this->render('miniglossary/resultSearch.html.twig', array(
             'miniGlossaries' => $miniGlossaries,

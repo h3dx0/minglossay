@@ -32,9 +32,13 @@ class TermController extends Controller
         $em = $this->getDoctrine()->getManager();
         $glossary = $em->getRepository('AppBundle:MiniGlossary')->find($idGlossary);
         $terms = $em->getRepository('AppBundle:Term')->findBy(array('miniglossary' => $idGlossary));
+        $idioms = $em->getRepository('AppBundle:Idiom')->findAll();
+
         return $this->render('term/termsByGlossary.html.twig', array(
             'terms' => $terms,
-            'glossary' => $glossary
+            'glossary' => $glossary,
+            'idioms' => $idioms
+
         )); 
     }
     /**
@@ -43,23 +47,37 @@ class TermController extends Controller
      */
     public function newAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
         $term = new Term();
         $form = $this->createForm('AppBundle\Form\TermType', $term);
         $form->handleRequest($request);
+        $glossary = $form->get('miniglossary')->getData();
+        if(!empty($glossary)){
+            $miniGlossary = $em->getRepository('AppBundle:MiniGlossary')->find($glossary);
+            if(count($miniGlossary->getTerms()) >= 5){
+              $this->addFlash(
+                'error', 'You have reach the maximum amount of terms 5.'
+            );
+          }
+      }
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($term);
-            $em->flush();
 
-            return $this->redirectToRoute('term_show', array('id' => $term->getId()));
-        }
-
-        return $this->render('term/new.html.twig', array(
-            'term' => $term,
-            'form' => $form->createView(),
-        ));
+      if ($form->isSubmitted() && $form->isValid() ) {
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($term);
+        $em->flush();
+        $this->addFlash(
+            'success', 'Term succefull added to glossary'.$miniGlossary->getTopic()
+        );
+        return $this->redirectToRoute('miniglossary_index');
     }
+
+
+    return $this->render('term/new.html.twig', array(
+        'term' => $term,
+        'form' => $form->createView(),
+    ));
+}
 
     /**
      * Finds and displays a term entity.

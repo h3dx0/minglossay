@@ -1,39 +1,39 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Terms list</h1>
+<h1>Terms list</h1>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Text</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Text</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for term in terms %}
-            <tr>
-                <td><a href="{{ path('term_show', { 'id': term.id }) }}">{{ term.id }}</a></td>
-                <td>{{ term.text }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('term_show', { 'id': term.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('term_edit', { 'id': term.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
+        <tr>
+            <td><a href="{{ path('term_show', { 'id': term.id }) }}">{{ term.id }}</a></td>
+            <td>{{ term.text }}</td>
+            <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('term_show', { 'id': term.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('term_edit', { 'id': term.id }) }}">edit</a>
+                    </li>
+                </ul>
+            </td>
+        </tr>
         {% endfor %}
-        </tbody>
-    </table>
+    </tbody>
+</table>
 
-    <ul>
-        <li>
-            <a href="{{ path('term_new') }}">Create a new term</a>
-        </li>
-    </ul>
+<ul>
+    <li>
+        <a href="{{ path('term_new') }}">Create a new term</a>
+    </li>
+</ul>
 {% endblock %}

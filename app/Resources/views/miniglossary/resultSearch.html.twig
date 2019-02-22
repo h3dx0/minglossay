@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<section class="container-cards flex-column row mt-2">
+    <aside>
+        <h3>Glossaries result for "{{query}}"</h3>
+        {% if miniGlossaries|length > 0 %}
+        {% for miniGlossary in miniGlossaries %}
+        <a class="badge badge-primary" href="{{path('term_by_glossary' ,{ 'idGlossary':miniGlossary.id })}}">
+           Glossary: {{miniGlossary}}  
+       </a>
+       {% else %}
+       <div class="alert alert-warning alert-dismissible">No result</div>
+       {% endfor %}
+       {% endif %}
+   </aside>
+   <aside>
+    <h3>Terms result for "{{query}}"</h3>
+    {% if terms|length > 0 %}
+    <ul class="d-flex m-2">
+        {% for term in terms %}            
+        <li class="card m-2">
+         <div class="card-body">
+            <a class="card-title" href="{{path('term_by_glossary' ,{ 'idGlossary':term.miniglossary.id })}}">
+                {{term}} - Glossary: {{term.miniglossary}}  
+            </a>
+            <div class="card-title">
+                <p>{{term.miniglossary.description}}</p>
+            </div>
+            <hr>
+            <div class="card-text mb-2">
+                {% for translate in term.translates  %}
+                {% if loop.index < 6 %}
+                <span>{{translate}}({{translate.idiom}}),</span>   
+                {% endif %}   
+                {% endfor %}
+                {% if term.translates|length > 3 %}
+                <a href="{{path('term_by_glossary' ,{ 'idGlossary': term.miniglossary.id  })}}">
+                 {{ term.translates|length - 3}} 
+             more</a>
+             {% endif %}
+         </div>
+         <a class="btn btn-sm btn-info" href="{{path('term_by_glossary' ,{ 'idGlossary':term.miniglossary.id })}}">View glossary</a>
+     </div>
+ </li>
+ {% endfor %}
+ {% else %}
+ <div class="alert alert-warning alert-dismissible">No result</div>
+ {% endif %}
+</ul>
+</aside>
+</section>
+{% endblock %}
+{% block javascripts %}
+
+
+{% endblock %}
+

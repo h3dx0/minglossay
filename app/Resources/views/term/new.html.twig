@@ -2,16 +2,28 @@
 
 {% block body %}
 <h1>Term creation</h1>
+{% for msg in app.flashes('error') %}
+<div class="alert alert-error">
+	{{ msg }}
+</div>
+{% endfor %}
+<div class="row">
+	<div class="card col-6 mx-auto">
+		<div class="card-body">
+			{{ form_start(form) }}
+			{{ form_widget(form) }}
+			<input type="submit" class="btn btn-success mt-3" value="Create" />
+			{{ form_end(form) }}
 
-{{ form_start(form) }}
-{{ form_widget(form) }}
-<input type="submit" value="Create" />
-{{ form_end(form) }}
+		</div>
+	</div>
+
+</div>
 
 <ul>
-    <li>
-        <a href="{{ path('term_index') }}">Back to the list</a>
-    </li>
+	<li>
+		<a href="{{ path('term_index') }}">Back to the list</a>
+	</li>
 </ul>
 {% endblock %}
 {% block javascripts %}

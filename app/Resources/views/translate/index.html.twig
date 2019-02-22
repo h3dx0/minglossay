@@ -1,39 +1,39 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Translates list</h1>
+<h1>Translates list</h1>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Text</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Text</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for translate in translates %}
-            <tr>
-                <td><a href="{{ path('translate_show', { 'id': translate.id }) }}">{{ translate.id }}</a></td>
-                <td>{{ translate.text }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('translate_show', { 'id': translate.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('translate_edit', { 'id': translate.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
+        <tr>
+            <td><a href="{{ path('translate_show', { 'id': translate.id }) }}">{{ translate.id }}</a></td>
+            <td>{{ translate.text }}</td>
+            <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('translate_show', { 'id': translate.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('translate_edit', { 'id': translate.id }) }}">edit</a>
+                    </li>
+                </ul>
+            </td>
+        </tr>
         {% endfor %}
-        </tbody>
-    </table>
+    </tbody>
+</table>
 
-    <ul>
-        <li>
-            <a href="{{ path('translate_new') }}">Create a new translate</a>
-        </li>
-    </ul>
+<ul>
+    <li>
+        <a href="{{ path('translate_new') }}">Create a new translate</a>
+    </li>
+</ul>
 {% endblock %}

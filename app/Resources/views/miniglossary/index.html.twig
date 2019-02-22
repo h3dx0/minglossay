@@ -1,58 +1,59 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<section class="search mt-2 mb-2">
-    <form action="{{path('miniglossary_search')}}" class="d-flex" method="post">
-        <input placeholder="Search by glossary or term" type="text" name="query">
-        <button class="btn btn-sm btn-primary">Search</button>
-    </form>
-</section>
-<a href="{{ path('miniglossary_new') }}" class="btn btn-success">Create a new glossary</a>
 
-<section class="container-cards d-flex row mt-2">
-    {% for miniGlossary in miniGlossaries %}
-    <div class="card item-card col-12 col-sm-6 col-md-4">
-        <div class="header-card">  
-            <h4>Glossary: {{ miniGlossary.topic }}</h4>
-            <span class="badge badge-info">Desc:{{ miniGlossary.description }}</span> <span class="badge badge-info">Language: {{ miniGlossary.idiom }}</span>
-            <span class="badge badge-info"> Creator: {{ miniGlossary.user }}</span>
-        </div>
-        <div class="card-body">
-          <label for="terms__list">Terms:</label>
-          <ul>
-            {% for term in miniGlossary.terms %}
-
-            <li class="d-flex terms_item mb-2">
-              <div class="term___text">{{term}}</div>
-              <div class="d-flex">
-                <div class="term__translate mr-2"> 
-                    {% for translate in term.translates  %}
-                    {% if loop.index < 4 %}
-                    <span>{{translate}}({{translate.idiom}}),</span>   
-                    {% endif %}   
-                    {% endfor %}
-                    {% if term.translates|length > 3 %}
-                    <a href="{{path('term_by_glossary' ,{ 'idGlossary': miniGlossary.id })}}">
-                     {{ term.translates|length - 3}} 
-                 more</a>
-                 {% endif %}
-
-             </div>
-             <div class="term__action">
-                <button type="button"
-                data-term="{{term.id}}"                
-                data-term-text="{{term}}"                
-                class="btn btn-primary btn-modal__translate btn-sm" data-toggle="modal" data-target="#translateModal">
-                TRANSLATE
-            </button>
-        </div>
-    </div>
-</li>
-<hr>
+{% for msg in app.flashes('success') %}
+<div class="alert alert-success alert-dismissible">
+    {{ msg }}
+</div>
 {% endfor %}
 
+<a href="{{ path('miniglossary_new') }}" class="btn btn-success">Create a new glossary</a>
+
+<section class="container-cards row mt-2">
+    {% for miniGlossary in miniGlossaries %}
+    <div class="col-12 col-sm-6 col-md-3 mb-3">
+        <div class="card mr-2">
+            <div class="card-header">  
+                <h4>Glossary: {{ miniGlossary.topic }}</h4>
+                <span class="badge badge-info">Desc:{{ miniGlossary.description }}</span> <span class="badge badge-info">Language: {{ miniGlossary.idiom }}</span>
+                <span class="badge badge-info"> Creator: {{ miniGlossary.user }}</span>
+            </div>
+            <div class="card-body">
+              <label for="terms__list">Terms:</label>
+              <ul>
+                {% for term in miniGlossary.terms %}
+
+                <li class="flex-column flex-sm-row terms_item mb-2">
+                  <div class="term___text"><mark>{{term}}</mark></div>
+                  <div class="flex-column flex-sm-row justify-content-between">
+                    <div class="term__translate mr-2"> 
+                        {% for translate in term.translates  %}
+                        {% if loop.index < 6 %}
+                        <span>{{translate}}({{translate.idiom}}),</span>   
+                        {% endif %}   
+                        {% endfor %}
+                        {% if term.translates|length > 3 %}
+                        <a href="{{path('term_by_glossary' ,{ 'idGlossary': miniGlossary.id })}}">
+                           {{ term.translates|length - 3}} 
+                       more</a>
+                       {% endif %}
+
+                   </div>
+                   <div class="term__action">
+                    <button type="button"
+                    data-term="{{term.id}}"                
+                    data-term-text="{{term}}"                
+                    class="btn btn-primary btn-modal__translate btn-sm" data-toggle="modal" data-target="#translateModal">
+                    TRANSLATE
+                </button>
+            </div>
+        </div>
+    </li>
+    <hr>
+    {% endfor %}
+
 </ul>
-</div>
 <div class="footer-card d-flex">
   <div class="terms__items-count">
     {{miniGlossary.terms|length}} terms
@@ -63,9 +64,13 @@
     {% endif %}
 
 </div>
+</div>
+
 </div> 
 
 </div>
+</div>
+
 {% endfor %}
 </section>
 {{ include('miniglossary/translateModal.html.twig') }}
@@ -73,13 +78,7 @@
 {% block javascripts %}
 <script>
 $(function(){
-    $('.btn-modal__translate').on('click', function(){
-        let textToTranslate =$(this).data('term-text')
-        let termToTranslate = $(this).data('term')
 
-        sessionStorage.setItem('termToTranslate',termToTranslate)
-        sessionStorage.setItem('textToTranslate',textToTranslate)
-    })
 
 })
 </script>
