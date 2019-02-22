@@ -7,6 +7,11 @@
     {{ msg }}
 </div>
 {% endfor %}
+{% for msg in app.flashes('error') %}
+<div class="alert alert-error alert-dismissible">
+    {{ msg }}
+</div>
+{% endfor %}
 
 <a href="{{ path('miniglossary_new') }}" class="btn btn-success">Create a new glossary</a>
 
@@ -15,8 +20,14 @@
     <div class="col-12 col-sm-6 col-md-3 mb-3">
         <div class="card mr-2">
             <div class="card-header">  
+                {% if miniGlossary.isActive == false %}
+                <div class="alert alert-warning">
+                    This glossary are inactive until you reach the 3 terms amount.
+                </div>
+                {% endif %}
                 <h4>Glossary: {{ miniGlossary.topic }}</h4>
-                <span class="badge badge-info">Desc:{{ miniGlossary.description }}</span> <span class="badge badge-info">Language: {{ miniGlossary.idiom }}</span>
+                <p class="mb-0 font-italic fs-12">Desc:{{ miniGlossary.description }}</p>
+                <span class="badge badge-info">Language: {{ miniGlossary.idiom }}</span>
                 <span class="badge badge-info"> Creator: {{ miniGlossary.user }}</span>
             </div>
             <div class="card-body">
@@ -35,12 +46,12 @@
                         {% endfor %}
                         {% if term.translates|length > 3 %}
                         <a href="{{path('term_by_glossary' ,{ 'idGlossary': miniGlossary.id })}}">
-                           {{ term.translates|length - 3}} 
-                       more</a>
-                       {% endif %}
+                         {{ term.translates|length - 3}} 
+                     more</a>
+                     {% endif %}
 
-                   </div>
-                   <div class="term__action">
+                 </div>
+                 <div class="term__action">
                     <button type="button"
                     data-term="{{term.id}}"                
                     data-term-text="{{term}}"                

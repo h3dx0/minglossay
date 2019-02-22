@@ -13,7 +13,7 @@ class MiniGlossaryType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('topic')->add('description')->add('idiom')->add('user');
+        $builder->add('topic')->add('description')->add('idiom');
     }/**
      * {@inheritdoc}
      */

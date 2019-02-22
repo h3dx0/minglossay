@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\MiniGlossary;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\User\UserInterface;
 use AppBundle\Entity\Idiom;
 /**
  * Miniglossary controller.
@@ -20,7 +21,7 @@ class MiniGlossaryController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $miniGlossaries = $em->getRepository('AppBundle:MiniGlossary')->findAll();
+        $miniGlossaries = $em->getRepository('AppBundle:MiniGlossary')->findBy(array('isActive'=>true));
         $idioms = $em->getRepository('AppBundle:Idiom')->findAll();
 
         return $this->render('miniglossary/index.html.twig', array(
@@ -28,6 +29,7 @@ class MiniGlossaryController extends Controller
             'idioms' => $idioms
         ));
     }
+
 
     /**
      * Search all miniGlossary entities.
@@ -39,6 +41,7 @@ class MiniGlossaryController extends Controller
         $query = $request->request->get('query');
         $miniGlossaries = $em->getRepository('AppBundle:MiniGlossary')->createQueryBuilder('m')
         ->where('m.topic LIKE :query')
+        ->andWhere('m.isActive = true')
         ->orWhere('m.description LIKE :query')
         ->setParameter('query', '%'.$query.'%')
         ->getQuery()
@@ -61,18 +64,18 @@ class MiniGlossaryController extends Controller
      * Creates a new miniGlossary entity.
      *
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request,UserInterface $user)
     {
         $miniGlossary = new Miniglossary();
         $form = $this->createForm('AppBundle\Form\MiniGlossaryType', $miniGlossary);
         $form->handleRequest($request);
-
+        $miniGlossary->setUser($user);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($miniGlossary);
             $em->flush();
 
-            return $this->redirectToRoute('miniglossary_show', array('id' => $miniGlossary->getId()));
+            return $this->redirectToRoute('user_glosaries');
         }
 
         return $this->render('miniglossary/new.html.twig', array(

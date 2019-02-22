@@ -22,3 +22,11 @@ user_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:User:delete" }
     methods:  DELETE
+
+user_glosaries:
+    path:     /glossaries
+    defaults: { _controller: "AppBundle:User:myGlossaries" }
+    methods:  GET
+
+
+

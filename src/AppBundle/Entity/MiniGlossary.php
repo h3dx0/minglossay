@@ -54,14 +54,19 @@ class MiniGlossary
      *
      */
     private $terms;
+     /**
+     * @ORM\Column(name="is_active", type="boolean")
+     */
+     private $isActive;
 
-    public function __toString()
-    {
+     public function __toString()
+     {
         return $this->topic;
     }
     
     public function __construct() {
         $this->terms = new ArrayCollection();
+        $this->isActive = false;
     }
     /**
      * Get id
@@ -201,5 +206,29 @@ class MiniGlossary
     public function getTerms()
     {
         return $this->terms;
+    }
+
+    /**
+     * Set isActive
+     *
+     * @param boolean $isActive
+     *
+     * @return MiniGlossary
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * Get isActive
+     *
+     * @return boolean
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
     }
 }

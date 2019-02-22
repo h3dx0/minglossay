@@ -54,29 +54,39 @@ class TermController extends Controller
         $glossary = $form->get('miniglossary')->getData();
         if(!empty($glossary)){
             $miniGlossary = $em->getRepository('AppBundle:MiniGlossary')->find($glossary);
+
             if(count($miniGlossary->getTerms()) >= 5){
               $this->addFlash(
                 'error', 'You have reach the maximum amount of terms 5.'
             );
+              return $this->redirectToRoute('user_glosaries');
+
           }
+
       }
 
 
       if ($form->isSubmitted() && $form->isValid() ) {
         $em = $this->getDoctrine()->getManager();
         $em->persist($term);
-        $em->flush();
-        $this->addFlash(
-            'success', 'Term succefull added to glossary'.$miniGlossary->getTopic()
-        );
-        return $this->redirectToRoute('miniglossary_index');
-    }
+        if(count($miniGlossary->getTerms()) >= 2){
+
+          $miniGlossary->setIsActive(true);
+          $em->persist($miniGlossary);
+
+      }
+      $em->flush();
+      $this->addFlash(
+        'success', 'Term succefull added to glossary'.$miniGlossary->getTopic()
+    );
+      return $this->redirectToRoute('miniglossary_index');
+  }
 
 
-    return $this->render('term/new.html.twig', array(
-        'term' => $term,
-        'form' => $form->createView(),
-    ));
+  return $this->render('term/new.html.twig', array(
+    'term' => $term,
+    'form' => $form->createView(),
+));
 }
 
     /**

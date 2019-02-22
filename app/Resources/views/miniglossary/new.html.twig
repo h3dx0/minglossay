@@ -1,16 +1,21 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Miniglossary creation</h1>
+dvi.
+<h1>Miniglossary creation</h1>
+<div class="card col-5 mx-auto">
+    <div class="card-body">
+      {{ form_start(form) }}
+      {{ form_widget(form) }}
+      <input type="submit" class="mt-2 btn btn-success "value="Create" />
+      {{ form_end(form) }}  
+  </div>
+</div>
 
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Create" />
-    {{ form_end(form) }}
 
-    <ul>
-        <li>
-            <a href="{{ path('miniglossary_index') }}">Back to the list</a>
-        </li>
-    </ul>
+<ul>
+    <li>
+        <a href="{{ path('miniglossary_index') }}">Back to the list</a>
+    </li>
+</ul>
 {% endblock %}

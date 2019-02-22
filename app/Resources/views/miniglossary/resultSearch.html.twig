@@ -18,7 +18,8 @@
     <h3>Terms result for "{{query}}"</h3>
     {% if terms|length > 0 %}
     <ul class="d-flex m-2">
-        {% for term in terms %}            
+        {% for term in terms %} 
+        {% if term.miniglossary.isActive == true %}           
         <li class="card m-2">
          <div class="card-body">
             <a class="card-title" href="{{path('term_by_glossary' ,{ 'idGlossary':term.miniglossary.id })}}">
@@ -29,11 +30,13 @@
             </div>
             <hr>
             <div class="card-text mb-2">
+
                 {% for translate in term.translates  %}
                 {% if loop.index < 6 %}
                 <span>{{translate}}({{translate.idiom}}),</span>   
                 {% endif %}   
                 {% endfor %}
+                
                 {% if term.translates|length > 3 %}
                 <a href="{{path('term_by_glossary' ,{ 'idGlossary': term.miniglossary.id  })}}">
                  {{ term.translates|length - 3}} 
@@ -43,6 +46,7 @@
          <a class="btn btn-sm btn-info" href="{{path('term_by_glossary' ,{ 'idGlossary':term.miniglossary.id })}}">View glossary</a>
      </div>
  </li>
+ {% endif %}
  {% endfor %}
  {% else %}
  <div class="alert alert-warning alert-dismissible">No result</div>

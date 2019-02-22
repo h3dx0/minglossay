@@ -5,13 +5,80 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * User controller.
  *
  */
 class UserController extends Controller
 {
+    public function logoutAction(Request $request)
+    {
+        $this->get('security.token_storage')->setToken(null);
+        $this->get('session')->invalidate();
+        return $this->render('user/login.html.twig', [
+            'last_username' => "",
+            'error'         => "",
+        ]);
+    }
+    public function loginAction(AuthenticationUtils $authenticationUtils)
+    {
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
+
+    // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+        return $this->render('user/login.html.twig', [
+            'last_username' => $lastUsername,
+            'error'         => $error,
+        ]);
+    }
+    public function registerAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $user = new User();
+        $form = $this->createForm('AppBundle\Form\UserType', $user);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
+            $user->setPassword($password);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            $this->addFlash(
+                'success', 'Registration complete.'
+            );
+            return $this->redirectToRoute('miniglossary_index');
+        }
+
+        return $this->render(
+            'user/register.html.twig',
+            ['form' => $form->createView()]
+        );
+    }
+
+
+    public function myGlossariesAction(UserInterface $user)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $miniGlossaries = $em->getRepository('AppBundle:MiniGlossary')->findByUser($user);
+        $idioms = $em->getRepository('AppBundle:Idiom')->findAll();
+
+        return $this->render('miniglossary/index.html.twig', array(
+            'miniGlossaries' => $miniGlossaries,
+            'idioms' => $idioms
+        ));
+    }
+
+    
+
     /**
      * Lists all user entities.
      *
@@ -116,9 +183,9 @@ class UserController extends Controller
     private function createDeleteForm(User $user)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('user_delete', array('id' => $user->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
+        ->setAction($this->generateUrl('user_delete', array('id' => $user->getId())))
+        ->setMethod('DELETE')
+        ->getForm()
         ;
     }
 }

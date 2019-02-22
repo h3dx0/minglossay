@@ -32,4 +32,4 @@ services:
     # add more services, or override services that need manual wiring
     # AppBundle\Service\ExampleService:
     #     arguments:
-    #         $someArgument: 'some_value'
+#         $someArgument: 'some_value'

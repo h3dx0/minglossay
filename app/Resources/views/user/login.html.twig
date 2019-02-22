@@ -10,10 +10,38 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
 </head>
 <body>
+	<div class="container mt-3">
+		<div class="card col-5 mx-auto">
+			<div class="card-body">
+				<h4 class="text-center">Welcome to MiniGlossary</h4>
+				{% if error %}
+				<div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+				{% endif %}
+
+				<form action="{{ path('login') }}" method="post">
+					<label for="username">Username:</label>
+					<input type="text" id="username" name="_username" value="{{ last_username }}" />
+
+					<label for="password">Password:</label>
+					<input type="password" id="password" name="_password" />
+
+					<button type="submit" class="btn btn-block btn-success mt-2">login</button>
+					<a href="{{path('user_registration')}}"> Register</a>
+				</form>
+			</div>
+		</div>
+	</div>
+
+
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
-</body>
-</html>
+	<script>
+	$(function(){
+		$('input,select').addClass('form-control');
+	})
+	</script>
+	</body>
+	</html>
